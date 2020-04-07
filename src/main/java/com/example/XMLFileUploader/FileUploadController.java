@@ -22,7 +22,7 @@ public class FileUploadController {
         return new ResponseEntity<UploadResponse>(response, getHttpStatus(extension, mimeType));
     }
 
-    private HttpStatus getHttpStatus(String extension, String mimeType){
+    public HttpStatus getHttpStatus(String extension, String mimeType){
         HttpStatus status = HttpStatus.NOT_ACCEPTABLE;;
 
         if(extension.equals("xml") && mimeType.equals("application/xml")){
