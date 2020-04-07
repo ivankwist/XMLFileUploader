@@ -45,15 +45,12 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-<<<<<<< HEAD
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-=======
->>>>>>> d9d924f9688f511a5efee00b8802503a15946076
 	</dependencies>
 
 	<build>
