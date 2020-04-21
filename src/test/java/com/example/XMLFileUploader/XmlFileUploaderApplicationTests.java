@@ -1,25 +1,38 @@
 package com.example.XMLFileUploader;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class XmlFileUploaderApplicationTests {
 
+	@Autowired
+	private MockMvc mockMvc;
+
 	@Test
-	public void testXMLUploadStatus() {
-		FileUploadController fileUploadController = new FileUploadController();
-		HttpStatus status = fileUploadController.getHttpStatus("xml", "application/xml");
-		assertEquals(status, HttpStatus.OK);
+	public void testXMLFileUpload() throws Exception {
+		MockMultipartFile testFile = new MockMultipartFile("file", "file.xml", "application/xml", "xml".getBytes());
+
+		this.mockMvc.perform(multipart("/")
+				.file(testFile))
+				.andExpect(status().is(200));
 	}
 
 	@Test
-	public void testNotXMLUploadStatus() {
-		FileUploadController fileUploadController = new FileUploadController();
-		HttpStatus status = fileUploadController.getHttpStatus("txt", "text/plain");
-		assertEquals(status, HttpStatus.NOT_ACCEPTABLE);
+	public void testNotXMLFileUpload() throws Exception {
+		MockMultipartFile testFile = new MockMultipartFile("file", "file.txt", "text/plain", "txt".getBytes());
+
+		this.mockMvc.perform(multipart("/")
+				.file(testFile))
+				.andExpect(status().is(406));
 	}
 
 }
