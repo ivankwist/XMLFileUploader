@@ -7,7 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -23,7 +25,9 @@ class XmlFileUploaderApplicationTests {
 
 		this.mockMvc.perform(multipart("/")
 				.file(testFile))
-				.andExpect(status().is(200));
+				.andExpect(status().is(200))
+				.andExpect(jsonPath("$.filename").value(testFile.getOriginalFilename()))
+				.andExpect(jsonPath("$.size").value(testFile.getSize()));
 	}
 
 	@Test
@@ -32,7 +36,9 @@ class XmlFileUploaderApplicationTests {
 
 		this.mockMvc.perform(multipart("/")
 				.file(testFile))
-				.andExpect(status().is(406));
+				.andExpect(status().is(406))
+				.andExpect(jsonPath("$.filename").value(testFile.getOriginalFilename()))
+				.andExpect(jsonPath("$.size").value(testFile.getSize()));
 	}
 
 }
